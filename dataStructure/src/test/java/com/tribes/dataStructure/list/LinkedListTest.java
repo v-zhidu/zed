@@ -10,108 +10,107 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * @see LinkedList Unit Test
- *
  * @author Zhiqiang Du
+ * @see LinkedList Unit Test
  */
 public class LinkedListTest {
 
-	private LinkedList<String> list;
+    private LinkedList<String> list;
 
-	@Before
-	public void setupTest() {
-		list = new LinkedList<>();
-	}
+    @Before
+    public void setupTest() {
+        list = new LinkedList<>();
+    }
 
-	@After
-	public void tearDown() {
+    @After
+    public void tearDown() {
 
-	}
+    }
 
-	/**
-	 * Test the default constructor of LinkedList<E>
-	 */
-	@Test
-	public void testDefaultConstructor() {
-		Assert.assertTrue(this.list.size() == 0);
-		Assert.assertTrue(this.list.isEmpty());
-	}
+    /**
+     * Test the default constructor of LinkedList<E>
+     */
+    @Test
+    public void testDefaultConstructor() {
+        Assert.assertTrue(this.list.size() == 0);
+        Assert.assertTrue(this.list.isEmpty());
+    }
 
-	/**
-	 * Test the <tt>add<tt/> method.
-	 */
-	@Test
-	public void testAdd() {
-		this.list.add("Mou");
-		this.list.add("Thu");
+    /**
+     * Test the <tt>add<tt/> method.
+     */
+    @Test
+    public void testAdd() {
+        this.list.add("Mou");
+        this.list.add("Thu");
 
-		Assert.assertTrue(this.list.size() == 2);
-		Assert.assertFalse(this.list.isEmpty());
-	}
+        Assert.assertTrue(this.list.size() == 2);
+        Assert.assertFalse(this.list.isEmpty());
+    }
 
-	/**
-	 * Test the <tt>addAll</tt> method.
-	 */
-	@Test
-	public void testAddAll() {
-		List<String> str = new ArrayList<String>();
-		str.add("a");
-		str.add("b");
+    /**
+     * Test the <tt>addAll</tt> method.
+     */
+    @Test
+    public void testAddAll() {
+        List<String> str = new ArrayList<String>();
+        str.add("a");
+        str.add("b");
 
-		this.list.addAll(str);
-		Assert.assertTrue(this.list.size() == 2);
-		Assert.assertTrue(!this.list.isEmpty());
-	}
+        this.list.addAll(str);
+        Assert.assertTrue(this.list.size() == 2);
+        Assert.assertTrue(!this.list.isEmpty());
+    }
 
-	/**
-	 * Test the <tt>contains</tt> methods.
-	 */
-	@Test
-	public void testContains() {
-		this.list.add("a");
+    /**
+     * Test the <tt>contains</tt> methods.
+     */
+    @Test
+    public void testContains() {
+        this.list.add("a");
 
-		Assert.assertTrue(this.list.contains("a"));
-		Assert.assertFalse(this.list.contains("b"));
-	}
+        Assert.assertTrue(this.list.contains("a"));
+        Assert.assertFalse(this.list.contains("b"));
+    }
 
-	/**
-	 * Test the <tt>indexOf</tt> methods.
-	 */
-	@Test
-	public void testIndexOf() {
-		this.list.add("a");
-		this.list.add("b");
+    /**
+     * Test the <tt>indexOf</tt> methods.
+     */
+    @Test
+    public void testIndexOf() {
+        this.list.add("a");
+        this.list.add("b");
 
-		Assert.assertTrue(this.list.indexOf("a") == 0);
-		Assert.assertTrue(this.list.indexOf("b") == 1);
-	}
+        Assert.assertTrue(this.list.indexOf("a") == 0);
+        Assert.assertTrue(this.list.indexOf("b") == 1);
+    }
 
-	/**
-	 * Test the <tt>ListIterator</tt>
-	 */
-	@Test
-	public void testListIterator() {
-		com.tribes.dataStructure.list.List<Integer> list = new LinkedList<>();
-		list.add(1);
-		list.add(2);
+    /**
+     * Test the <tt>ListIterator</tt>
+     */
+    @Test
+    public void testListIterator() {
+        com.tribes.dataStructure.list.List<Integer> list = new LinkedList<>();
+        list.add(1);
+        list.add(2);
 
-		int count = 0;
-		for (Integer value : list)
-			count += value;
+        int count = 0;
+        for (Integer value : list)
+            count += value;
 
-		Assert.assertEquals(3, count);
+        Assert.assertEquals(3, count);
 
-		//Test remove operation
-		for (Iterator<Integer> iterable = list.iterator(); iterable.hasNext(); ) {
-			Integer value = iterable.next();
-			if (value == 1)
-				iterable.remove();
-		}
+        //Test remove operation
+        for (Iterator<Integer> iterable = list.iterator(); iterable.hasNext(); ) {
+            Integer value = iterable.next();
+            if (value == 1)
+                iterable.remove();
+        }
 
-		count = 0;
-		for (Integer value : list)
-			count += value;
+        count = 0;
+        for (Integer value : list)
+            count += value;
 
-		Assert.assertEquals(2, count);
-	}
+        Assert.assertEquals(2, count);
+    }
 }

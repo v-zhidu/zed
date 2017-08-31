@@ -1,8 +1,5 @@
 package com.tribes.dataStructure.list;
 
-import edu.princeton.cs.algs4.StdIn;
-import edu.princeton.cs.algs4.StdOut;
-
 public class FixedCapacityStackOfStrings {
     private String[] a;
 

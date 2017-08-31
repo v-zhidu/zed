@@ -2,12 +2,14 @@ package com.tribes.algorithms;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
 import static com.tribes.algorithms.Array.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 /**
- * Created by duzhiqiang on 2017/6/15.
  * 数组类测试方法
+ *
+ * @author Zhiqiang Du
  */
 public class ArrayTest {
 
@@ -33,7 +35,7 @@ public class ArrayTest {
     }
 
     @Test
-    public void testReverse(){
+    public void testReverse() {
         String str = "abcd";
 
         assertEquals("dcba", "dcba", reverse(str.toCharArray()));

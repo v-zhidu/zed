@@ -101,7 +101,7 @@ public class Bag<E> implements Iterable<E> {
         }
     }
 
-    private class ListIterator<> implements Iterator<E> {
+    private class ListIterator<E> implements Iterator<E> {
 
         private Node<E> current;
 

@@ -2,7 +2,7 @@ package com.tribes.algorithms;
 
 import org.junit.Test;
 
-import static com.tribes.algorithms.Array.*;
+import static com.tribes.algorithms.utils.ArrayUtil.*;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
@@ -11,7 +11,7 @@ import static org.junit.Assert.assertEquals;
  *
  * @author Zhiqiang Du
  */
-public class ArrayTest {
+public class ArrayUtilTest {
 
     @Test
     public void testMax() {
@@ -24,7 +24,7 @@ public class ArrayTest {
     public void testAverage() {
         int[] a = {1, 3, 4, 5, 6, 2, 11, 5};
 
-        assertEquals((double) 37 / 8, average(a), 0.0);
+        assertEquals((double) 37 / 8, mean(a), 0.0);
     }
 
     @Test

@@ -1,16 +1,19 @@
-package com.tribes.algorithms;
+package com.tribes.algorithms.utils;
 
 /**
  * 数组常用工具方法
  *
  * @author Zhiqiang Du
  */
-public class Array {
+public class ArrayUtil {
 
-    /*
-    * 找出数组中最大的元素
-    * */
-    static int max(int[] a) {
+    /**
+     * 找出数组中最大的元素
+     *
+     * @param a 整型类型数组
+     * @return 最大元素
+     */
+    public static int max(int[] a) {
         int max = a[0];
         for (int i = 1; i < a.length; i++) {
             if (a[i] > max) {
@@ -21,10 +24,13 @@ public class Array {
         return max;
     }
 
-    /*
-    * 计算数组元素的平均值
-    * */
-    static double average(int[] a) {
+    /**
+     * 计算数组平均值
+     *
+     * @param a 整型类型数组
+     * @return 平均值
+     */
+    public static double mean(int[] a) {
         int N = a.length;
         double sum = 0.0;
 
@@ -35,10 +41,13 @@ public class Array {
         return sum / N;
     }
 
-    /*
-    * 复制数组
-    * */
-    static int[] duplicate(int[] a) {
+    /**
+     * 拷贝数组
+     *
+     * @param a 整型类型数组
+     * @return 新数组
+     */
+    public static int[] duplicate(int[] a) {
         int N = a.length;
         int[] b = new int[N];
 
@@ -50,10 +59,13 @@ public class Array {
         return b;
     }
 
-    /*
-    * 反转字符串
-    * */
-    static String reverse(char[] arr) {
+    /**
+     * 反转字符串
+     *
+     * @param arr 字符串数组
+     * @return 反转后的字符串
+     */
+    public static String reverse(char[] arr) {
         int N = arr.length;
         for (int i = 0; i < N / 2; i++) {
             char temp = arr[i];

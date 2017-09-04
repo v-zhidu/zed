@@ -1,4 +1,4 @@
-package com.tribes.algorithms;
+package com.tribes.algorithms.utils;
 
 
 import com.tribes.dataStructure.list.Bag;
@@ -9,7 +9,7 @@ import com.tribes.dataStructure.list.Bag;
  * @author v-zhidu
  * Created on 2017/6/20.
  */
-public class Math {
+public class MathUtil {
 
     /**
      * 计算一个整数的绝对值
@@ -48,22 +48,5 @@ public class Math {
         }
 
         return true;
-    }
-
-    /**
-     * 计算一组数的平均值
-     *
-     * @param numbers 一组double类型数值
-     * @return 一组数的绝对值
-     * @see Bag
-     */
-    public static double mean(Bag<Double> numbers) {
-        int N = numbers.size();
-        double sum = 0.0;
-
-        for (double x : numbers)
-            sum += x;
-
-        return sum / N;
     }
 }

@@ -74,7 +74,7 @@ public class LinkedList<E> implements List<E> {
     /**
      * Returns <tt>true</tt> if this list has e element.
      *
-     * @param e element whether in this list
+     * @param o element whether in this list
      * @return <tt>true</tt> if this list has e element
      */
     @Override
@@ -160,7 +160,7 @@ public class LinkedList<E> implements List<E> {
 
         for (Object o : a) {
             @SuppressWarnings("unchecked") E e = (E) o;
-            Node<E> newNode = new Node<>(pred, e, null);
+            Node<E> newNode = new Node<E>(pred, e, null);
             if (pred == null)
                 first = newNode;
             else
@@ -238,7 +238,7 @@ public class LinkedList<E> implements List<E> {
      */
     private void linkFirst(E e) {
         final Node<E> f = first;
-        final Node<E> newNode = new Node<>(null, e, f);
+        final Node<E> newNode = new Node<E>(null, e, f);
         first = newNode;
         if (f == null)
             last = newNode;
@@ -253,7 +253,7 @@ public class LinkedList<E> implements List<E> {
      */
     private void linkLast(E e) {
         final Node<E> l = last;
-        final Node<E> newNode = new Node<>(l, e, null);
+        final Node<E> newNode = new Node<E>(l, e, null);
         last = newNode;
         if (l == null)
             first = newNode;
@@ -268,7 +268,7 @@ public class LinkedList<E> implements List<E> {
      */
     private void linkBefore(E e, Node<E> succ) {
         Node<E> pred = succ.prev;
-        Node<E> newNode = new Node<>(pred, e, succ);
+        Node<E> newNode = new Node<E>(pred, e, succ);
         succ.prev = newNode;
         if (pred == null)
             first = newNode;

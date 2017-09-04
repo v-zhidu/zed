@@ -1,10 +1,6 @@
 package com.tribes.dataStructure.list;
 
-import edu.princeton.cs.algs4.StdIn;
-import edu.princeton.cs.algs4.StdOut;
 import org.junit.Test;
-
-import java.util.ArrayList;
 
 public class StackTest {
 

@@ -2,7 +2,8 @@ package com.tribes.algorithms;
 
 /**
  * 数组常用工具方法
- * Created by duzhiqiang on 2017/6/15.
+ *
+ * @author Zhiqiang Du
  */
 public class Array {
 

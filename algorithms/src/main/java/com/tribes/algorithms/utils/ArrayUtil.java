@@ -88,12 +88,7 @@ public class ArrayUtil {
         return random;
     }
 
-    public static LinkedList<Comparable> random(int n) {
-        LinkedList<Comparable> random = new LinkedList<>();
-
-        for (int i = 0; i < n; i++)
-            random.add(StdRandom.uniform(n));
-
-        return random;
+    public static void shuffle(Object[] a) {
+        StdRandom.shuffle(a);
     }
 }

@@ -1,6 +1,7 @@
 package com.tribes.algorithms.sorting.common;
 
 import com.tribes.algorithms.utils.ArrayUtil;
+import edu.princeton.cs.algs4.Accumulator;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 import io.bretty.console.table.Alignment;
@@ -121,43 +122,68 @@ public abstract class Sorting<T extends Comparable> extends Analyzable {
      * 测试的数组类型包括 (随机数组，接近有序数组，逆序数组，有序数组)
      * 数组大小 ()
      */
-    protected void evaluate(Integer[] sizes) {
-        BigDecimal[][] durations = new BigDecimal[12][sizes.length];
-        Comparator comparator = new AscIntegerComparator();
-        LinkedList<Comparable> list = new LinkedList<>();
+    protected void evaluate(Integer[] sizes, int iteration) {
+        Double[][] durations = new Double[12][sizes.length];
+
         for (int i = 0; i < sizes.length; i++) {
             // 随机序列
-            Integer[] randomArray = ArrayUtil.randomInt(sizes[i]);
-            this.sort(randomArray);
-            durations[0][i] = getDuration();
-
-            StdRandom.shuffle(randomArray);
-            this.sort(randomArray, comparator);
-            durations[1][i] = getDuration();
-
-            StdRandom.shuffle(randomArray);
-            list.clear();
-            list.addAll(Arrays.asList(randomArray));
-            this.sort(list, comparator);
-            durations[2][i] = getDuration();
+            durations[0][i] = executeSorts(1, 1, sizes[i], iteration);
+            durations[1][i] = executeSorts(2, 1, sizes[i], iteration);
+            durations[2][i] = executeSorts(3, 1, sizes[i], iteration);
 
             // 接近有序序列
-            durations[3][i] = BigDecimal.ZERO;
-            durations[4][i] = BigDecimal.ZERO;
-            durations[5][i] = BigDecimal.ZERO;
+            durations[3][i] = 0.0;
+            durations[4][i] = 0.0;
+            durations[5][i] = 0.0;
 
             // 有序序列
-            durations[6][i] = BigDecimal.ZERO;
-            durations[7][i] = BigDecimal.ZERO;
-            durations[8][i] = BigDecimal.ZERO;
+            durations[6][i] = 0.0;
+            durations[7][i] = 0.0;
+            durations[8][i] = 0.0;
 
             // 逆序序列
-            durations[9][i] = BigDecimal.ZERO;
-            durations[10][i] = BigDecimal.ZERO;
-            durations[11][i] = BigDecimal.ZERO;
+            durations[9][i] = 0.0;
+            durations[10][i] = 0.0;
+            durations[11][i] = 0.0;
         }
-        StdOut.println(this.getClass().getName());
+        StdOut.println("algorithms: " + this.getClass().getName() + ", iteration times: " + iteration);
         StdOut.println(buildTable(sizes, durations));
+    }
+
+    private double executeSorts(int method, int type, int n, int iteration) {
+        AscIntegerComparator comparator = new AscIntegerComparator();
+        Accumulator accumulator = new Accumulator();
+        if (method == 1) {
+            Comparable[] array = generateArray(type, n);
+            for (int i = 0; i < iteration; i++) {
+                this.sort(array);
+                accumulator.addDataValue(this.getDuration());
+            }
+        } else if (method == 2) {
+            for (int i = 0; i < iteration; i++) {
+                this.sort(generateArray(type, n), comparator);
+                accumulator.addDataValue(this.getDuration());
+            }
+        } else {
+            LinkedList<Comparable> list = new LinkedList<>();
+            for (int i = 0; i < iteration; i++) {
+                list.clear();
+                Comparable[] array = generateArray(type, n);
+                assert array != null;
+                list.addAll(Arrays.asList(array));
+                this.sort(list, comparator);
+                accumulator.addDataValue(this.getDuration());
+            }
+        }
+
+        return accumulator.mean();
+    }
+
+    private Comparable[] generateArray(int type, int n) {
+        if (type == 1)
+            return ArrayUtil.randomInt(n);
+        else
+            return null;
     }
 
     /**
@@ -167,14 +193,14 @@ public abstract class Sorting<T extends Comparable> extends Analyzable {
      * @param durations 二维数组
      * @return 返回字符串
      */
-    private String buildTable(Integer[] sizes, BigDecimal[][] durations) {
+    private String buildTable(Integer[] sizes, Double[][] durations) {
         String headers = "|   n   |" +
                 "              random               |" +
                 "              nearly               |" +
                 "              sorted               |" +
                 "              reverse              |";
         StdOut.println(headers);
-        ColumnFormatter<Number> numberColumnFormatter = ColumnFormatter.number(Alignment.CENTER, 7, Precision.ZERO);
+        ColumnFormatter<Number> numberColumnFormatter = ColumnFormatter.number(Alignment.RIGHT, 7, Precision.ZERO);
         ColumnFormatter<Number> durationColumnFormatter = ColumnFormatter.number(Alignment.CENTER, 11, Precision.SEVEN);
 
         Table.Builder builder = new Table.Builder("", sizes, numberColumnFormatter);

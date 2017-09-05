@@ -1,6 +1,5 @@
 package com.tribes.algorithms.sorting.common;
 
-import java.math.BigDecimal;
 
 public abstract class Analyzable {
     /**
@@ -11,7 +10,7 @@ public abstract class Analyzable {
     /**
      * 排序算法的运行时长
      */
-    private BigDecimal duration;
+    private double duration;
 
     /**
      * 输入的集合大小
@@ -19,9 +18,9 @@ public abstract class Analyzable {
     private int size;
 
     /**
-     * 标记开始计时的时间点
+     * 计时器
      */
-    private long startDate;
+    private Stopwatch stopwatch;
 
     /**
      * 获取一次排序中移动元素的次数
@@ -37,7 +36,7 @@ public abstract class Analyzable {
      *
      * @return 一次排序方法所用时长 (毫秒)
      */
-    protected BigDecimal getDuration() {
+    protected double getDuration() {
         return duration;
     }
 
@@ -60,17 +59,18 @@ public abstract class Analyzable {
      * 开始计时
      */
     protected void startSorting(int size) {
-        this.duration = BigDecimal.ZERO;
+        this.duration = 0.0f;
         this.modifyCount = 0;
         this.size = size;
-        this.startDate = System.nanoTime();
+        this.stopwatch = new Stopwatch();
     }
 
     /**
      * 结束计时
      */
     protected void endSorting() {
-        this.duration = BigDecimal.valueOf(System.nanoTime() - this.startDate, 10);
+        this.duration = this.stopwatch.elapsedTime();
+        this.stopwatch = null;
     }
 
     /**

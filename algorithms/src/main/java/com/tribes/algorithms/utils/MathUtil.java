@@ -1,8 +1,5 @@
 package com.tribes.algorithms.utils;
 
-
-import com.tribes.dataStructure.list.Bag;
-
 /**
  * 常用的数学计算
  *

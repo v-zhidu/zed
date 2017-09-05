@@ -1,9 +1,8 @@
 package com.tribes.algorithms.sorting;
 
-import com.tribes.algorithms.sorting.common.OrderType;
 import com.tribes.algorithms.sorting.common.Sorting;
-import edu.princeton.cs.algs4.StdOut;
 
+import java.util.Comparator;
 import java.util.LinkedList;
 
 /**
@@ -13,18 +12,7 @@ import java.util.LinkedList;
  * @see Sorting 排序算法抽象类
  * @see Comparable 比较接口
  */
-public class InsertionSorting<T extends Comparable> extends Sorting<T> {
-
-    /**
-     * 单元测试方法
-     */
-    public static void main(String[] args) {
-        //通用输入
-        InsertionSorting<Integer> sorting = new InsertionSorting<>();
-
-        sorting.sort(new Integer[]{3, 1, 3, 2, 4, 5});
-        StdOut.println(sorting.toString());
-    }
+public class InsertionSorting<T extends Comparable> extends Sorting<Comparable> {
 
     /**
      * 基本的算法实现
@@ -51,19 +39,18 @@ public class InsertionSorting<T extends Comparable> extends Sorting<T> {
      * @param array 基于值的集合
      */
     @Override
-    public void sort(T[] array, OrderType orderType) {
+    public void sort(Comparable[] array, Comparator comparator) {
         //TODO (du_zhi_qiang@163.com) 有代码侵入，考虑能否利用切面实现
         super.startSorting(array.length);
 
         for (int i = 1; i < array.length; i++) {
-            int j = i - 1;
-            T value = array[i];
-            while (j >= 0 && less(value, array[j], orderType)) {
-                array[j + 1] = array[j];
-                j--;
-                super.setModifyCount();
+            int pos = i;
+            for (int j = i; j > 0 && less(array[i], array[j - 1], comparator); j--)
+                pos--;
+            if (pos != i) {
+                insert(array, pos, array[i]);
             }
-            array[j + 1] = value;
+
         }
 
         super.endSorting();
@@ -72,10 +59,36 @@ public class InsertionSorting<T extends Comparable> extends Sorting<T> {
     /**
      * 支持升序或降序排列的算法
      *
-     * @param array 基于指针的集合
+     * @param list 基于指针的集合
      */
     @Override
-    public void sort(LinkedList<T> array, OrderType orderType) {
-        throw new UnsupportedOperationException("sort");
+    public void sort(LinkedList<Comparable> list, Comparator comparator) {
+        super.startSorting(list.size());
+
+        for (int i = 1; i < list.size(); i++) {
+            int pos = i;
+            for (int j = i; j > 0 && less(list.get(i), list.get(j - 1), comparator); j--)
+                pos--;
+            if (pos != i) {
+                insert(list, i, pos);
+            }
+
+        }
+
+        super.endSorting();
+    }
+
+    /**
+     * 单元测试方法
+     */
+    public static void main(String[] args) {
+        InsertionSorting<Integer> sorting = new InsertionSorting<>();
+
+//        LinkedList<Comparable> list = ArrayUtil.random(5);
+//        sorting.show(list.toArray());
+//        sorting.sort(list, new AscIntegerComparator());
+//        sorting.show(list.toArray());
+//        StdOut.println(sorting.toString());
+        sorting.evaluate(new Integer[]{10, 50, 100, 500, 1000, 10000});
     }
 }

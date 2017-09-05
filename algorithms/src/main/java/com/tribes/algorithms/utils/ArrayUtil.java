@@ -1,5 +1,9 @@
 package com.tribes.algorithms.utils;
 
+import edu.princeton.cs.algs4.StdRandom;
+
+import java.util.LinkedList;
+
 /**
  * 数组常用工具方法
  *
@@ -74,5 +78,22 @@ public class ArrayUtil {
         }
 
         return String.valueOf(arr);
+    }
+
+    public static Integer[] randomInt(int n) {
+        Integer[] random = new Integer[n];
+        for (int i = 0; i < n; i++)
+            random[i] = StdRandom.uniform(n);
+
+        return random;
+    }
+
+    public static LinkedList<Comparable> random(int n) {
+        LinkedList<Comparable> random = new LinkedList<>();
+
+        for (int i = 0; i < n; i++)
+            random.add(StdRandom.uniform(n));
+
+        return random;
     }
 }

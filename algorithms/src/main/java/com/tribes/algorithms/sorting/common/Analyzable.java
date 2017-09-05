@@ -70,7 +70,7 @@ public abstract class Analyzable {
      * 结束计时
      */
     protected void endSorting() {
-        this.duration = BigDecimal.valueOf(System.nanoTime() - this.startDate, 7);
+        this.duration = BigDecimal.valueOf(System.nanoTime() - this.startDate, 10);
     }
 
     /**

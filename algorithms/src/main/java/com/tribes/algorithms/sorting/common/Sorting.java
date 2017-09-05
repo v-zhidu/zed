@@ -2,6 +2,7 @@ package com.tribes.algorithms.sorting.common;
 
 import com.tribes.algorithms.utils.ArrayUtil;
 import edu.princeton.cs.algs4.Accumulator;
+import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 import io.bretty.console.table.Alignment;
@@ -116,6 +117,21 @@ public abstract class Sorting<T extends Comparable> extends Analyzable {
         return isSorted(a, 0, a.length, comparator);
     }
 
+    /**
+     * 数组变化可视化
+     * @param a 数组
+     */
+    protected void visual(Comparable[] a) {
+        StdDraw.clear();
+        for (int i = 0; i < a.length; i++) {
+            double x = 1.0 * i / a.length;
+            double y = (double) a[i] / 2.0;
+            double rw = 0.5 / a.length;
+            double rh = (double) a[i] / 2.0;
+            StdDraw.filledRectangle(x, y, rw, rh);
+            StdDraw.pause(0);
+        }
+    }
     /**
      * 内置的算法评估方法
      * <p>

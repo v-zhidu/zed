@@ -23,8 +23,6 @@ import java.util.Comparator;
  */
 public abstract class Sorting<T extends Comparable> extends Analyzable {
 
-
-
     /**
      * 比较函数
      *
@@ -92,6 +90,7 @@ public abstract class Sorting<T extends Comparable> extends Analyzable {
             StdDraw.pause(0);
         }
     }
+
     /**
      * 内置的算法评估方法
      * <p>
@@ -108,21 +107,22 @@ public abstract class Sorting<T extends Comparable> extends Analyzable {
             durations[2][i] = executeSorts(3, 1, sizes[i], iteration);
 
             // 接近有序序列
-            durations[3][i] = 0.0;
-            durations[4][i] = 0.0;
-            durations[5][i] = 0.0;
+            durations[3][i] = executeSorts(1, 2, sizes[i], iteration);
+            durations[4][i] = executeSorts(2, 2, sizes[i], iteration);
+            durations[5][i] = executeSorts(3, 2, sizes[i], iteration);
 
             // 有序序列
-            durations[6][i] = 0.0;
-            durations[7][i] = 0.0;
-            durations[8][i] = 0.0;
+            durations[6][i] = executeSorts(1, 3, sizes[i], iteration);
+            durations[7][i] = executeSorts(2, 3, sizes[i], iteration);
+            durations[8][i] = executeSorts(3, 3, sizes[i], iteration);
 
             // 逆序序列
-            durations[9][i] = 0.0;
-            durations[10][i] = 0.0;
-            durations[11][i] = 0.0;
+            durations[9][i] = executeSorts(1, 4, sizes[i], iteration);
+            durations[10][i] = executeSorts(2, 4, sizes[i], iteration);
+            durations[11][i] = executeSorts(3, 4, sizes[i], iteration);
         }
         StdOut.println("algorithms: " + this.getClass().getName() + ", iteration times: " + iteration);
+        StdOut.println();
         StdOut.println(buildTable(sizes, durations));
     }
 
@@ -156,10 +156,15 @@ public abstract class Sorting<T extends Comparable> extends Analyzable {
     }
 
     private Comparable[] generateArray(int type, int n) {
-        if (type == 1)
+        if (type == 1) {
             return ArrayUtil.randomInt(n);
-        else
-            return null;
+        } else if (type == 2) {
+            return ArrayUtil.nearlyInt(n);
+        } else if (type == 3) {
+            return ArrayUtil.sortedInt(n, new AscIntegerComparator());
+        } else {
+            return ArrayUtil.sortedInt(n, new DescIntegerComparator());
+        }
     }
 
     /**

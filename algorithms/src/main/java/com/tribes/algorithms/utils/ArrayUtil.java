@@ -2,6 +2,9 @@ package com.tribes.algorithms.utils;
 
 import edu.princeton.cs.algs4.StdRandom;
 
+import java.util.Arrays;
+import java.util.Comparator;
+
 /**
  * 数组常用工具方法
  *
@@ -85,7 +88,7 @@ public class ArrayUtil {
      * @param index 插入元素的索引位置
      * @param value 插入元素
      */
-    protected void insert(Object[] array, int index, Comparable value) {
+    public static void insert(Object[] array, int index, Comparable value) {
         System.arraycopy(array, index, array, index + 1, array.length - 1 - index);
         array[index] = value;
     }
@@ -96,7 +99,7 @@ public class ArrayUtil {
      * @param i 元素索引
      * @param j 元素索引
      */
-    protected void swap(Object[] array, int i, int j) {
+    public static void swap(Object[] array, int i, int j) {
         if (i == j)
             return;
         Object t = array[i];
@@ -104,6 +107,9 @@ public class ArrayUtil {
         array[j] = t;
     }
 
+    public static Integer uniform(int min, int max) {
+        return StdRandom.uniform(min, max);
+    }
 
     public static Integer[] randomInt(int n) {
         Integer[] random = new Integer[n];
@@ -111,6 +117,28 @@ public class ArrayUtil {
             random[i] = StdRandom.uniform(n);
 
         return random;
+    }
+
+    public static Integer[] nearlyInt(int n) {
+        Integer[] array = new Integer[n];
+        for (int i = 0; i < n; i++)
+            array[i] = i;
+
+        final int randomSize = (int) (n * 0.1);
+        for (int i = 0; i < randomSize; i++) {
+            int randomIndex = StdRandom.uniform(0, n);
+            array[randomIndex] = StdRandom.uniform(0, n);
+        }
+
+        return array;
+    }
+
+    public static Integer[] sortedInt(int n, Comparator comparator) {
+        Integer[] array = new Integer[n];
+        for (int i = 0; i < n; i++)
+            array[i] = i;
+        Arrays.sort(array, comparator);
+        return array;
     }
 
     public static void shuffle(Object[] a) {

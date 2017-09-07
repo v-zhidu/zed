@@ -1,11 +1,9 @@
 package com.tribes.algorithms.sorting;
 
-import com.tribes.algorithms.sorting.common.AscIntegerComparator;
 import com.tribes.algorithms.sorting.common.Sorting;
+import com.tribes.algorithms.utils.ArrayUtil;
 import com.tribes.dataStructure.list.LinkedList;
-import edu.princeton.cs.algs4.StdOut;
 
-import java.util.Arrays;
 import java.util.Comparator;
 
 /**
@@ -16,6 +14,20 @@ import java.util.Comparator;
  * @see Comparable 比较接口
  */
 public class InsertionSorting<T extends Comparable> extends Sorting<Comparable> {
+
+    /**
+     * 单元测试方法
+     */
+    public static void main(String[] args) {
+        InsertionSorting<Integer> sorting = new InsertionSorting<>();
+//        Integer[] array = new Integer[]{3, 1, 2, 4};
+//        LinkedList<Comparable> list = new LinkedList<>();
+//        list.addAll(Arrays.asList(array));
+//        sorting.sort(list, new AscIntegerComparator());
+//        sorting.show(list.toArray());
+//        sorting.show(ArrayUtil.nearlyInt(100));
+        sorting.evaluate(new Integer[]{10, 50, 500, 2000, 5000, 10000}, 10);
+    }
 
     /**
      * 基本的算法实现
@@ -30,7 +42,7 @@ public class InsertionSorting<T extends Comparable> extends Sorting<Comparable> 
 
         for (int i = 1; i < array.length; i++) {
             for (int j = i; j > 0 && less(array[j], array[j - 1]); j--) {
-                swap(array, j, j - 1);
+                ArrayUtil.swap(array, j, j - 1);
             }
         }
 
@@ -52,7 +64,7 @@ public class InsertionSorting<T extends Comparable> extends Sorting<Comparable> 
             for (int j = i; j > 0 && less(array[i], array[j - 1], comparator); j--)
                 pos--;
             if (pos != i) {
-                insert(array, pos, array[i]);
+                ArrayUtil.insert(array, pos, array[i]);
             }
 
         }
@@ -78,8 +90,7 @@ public class InsertionSorting<T extends Comparable> extends Sorting<Comparable> 
 //            }
 //
 //        }
-        LinkedList.Node first = list.first;
-        LinkedList.Node last = list.last;
+        LinkedList.Node first = list.getFirst();
 
         if (first == null)
             return;
@@ -88,55 +99,16 @@ public class InsertionSorting<T extends Comparable> extends Sorting<Comparable> 
         while (current != null) {
             LinkedList.Node position = null;
             LinkedList.Node next = current.next;
-            for (LinkedList.Node sorted = current.prev; sorted != null; sorted = sorted.prev) {
-                if (less(current.item, sorted.item, comparator))
+            for (LinkedList.Node sorted = current.prev; sorted != null && less(current.item, sorted.item, comparator); sorted = sorted.prev) {
                     position = sorted;
             }
 
             if (position != null && position != current) {
-                if (position == first) {
-                    current.next.prev = position;
-                    position.next = current.next;
-                    position.prev = current;
-                    current.next = position;
-                    current.prev = null;
-                    first = current;
-                } else if (current == last) {
-                    position.prev.next = current;
-                    current.prev = position.prev;
-                    current.next = position;
-                    position.prev = current;
-                    position.next = null;
-                    last = position;
-                } else {
-                    position.prev.next = current;
-                    current.next.prev = position;
-                    position.next = current.next;
-                    current.next = position;
-                    current.prev = position;
-                }
+                list.move(current, position);
             }
             current = next;
         }
-        list.first = first;
-        list.last = last;
 
         super.endSorting();
-    }
-
-    /**
-     * 单元测试方法
-     */
-    public static void main(String[] args) {
-        InsertionSorting<Integer> sorting = new InsertionSorting<>();
-//        Integer[] array = new Integer[]{3, 1, 2, 4};
-//        LinkedList<Comparable> list = new LinkedList<>();
-//        list.addAll(Arrays.asList(array));
-//        sorting.sort(list, new AscIntegerComparator());
-//        for (Comparable item : list) {
-//            StdOut.println(item);
-//        }
-//        sorting.show(list.toArray());
-        sorting.evaluate(new Integer[]{10, 50, 100, 500, 1000}, 10);
     }
 }

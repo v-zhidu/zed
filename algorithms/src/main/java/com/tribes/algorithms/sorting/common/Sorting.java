@@ -1,19 +1,17 @@
 package com.tribes.algorithms.sorting.common;
 
 import com.tribes.algorithms.utils.ArrayUtil;
+import com.tribes.dataStructure.list.LinkedList;
 import edu.princeton.cs.algs4.Accumulator;
 import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.StdOut;
-import edu.princeton.cs.algs4.StdRandom;
 import io.bretty.console.table.Alignment;
 import io.bretty.console.table.ColumnFormatter;
 import io.bretty.console.table.Precision;
 import io.bretty.console.table.Table;
 
-import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.LinkedList;
 
 /**
  * 排序算法模版类，包含算法常用的基本操作以及定义子类应实现的基本方法
@@ -25,45 +23,7 @@ import java.util.LinkedList;
  */
 public abstract class Sorting<T extends Comparable> extends Analyzable {
 
-    /**
-     * 在数组中的某一个位置插入元素
-     *
-     * @param array 待插入数组
-     * @param index 插入元素的索引位置
-     * @param value 插入元素
-     */
-    protected void insert(Object[] array, int index, Comparable value) {
-        System.arraycopy(array, index, array, index + 1, array.length - 1 - index);
-        array[index] = value;
-        super.setModifyCount();
-    }
 
-    /**
-     * 移动链表中的一个元素
-     *
-     * @param list        链表
-     * @param source      准备移动的索引
-     * @param destination 目标位置
-     */
-    protected void insert(LinkedList<Comparable> list, int source, int destination) {
-        list.add(destination, list.remove(source));
-        super.setModifyCount();
-    }
-
-    /**
-     * 交换数组中两个位置的元素
-     *
-     * @param i 元素索引
-     * @param j 元素索引
-     */
-    protected void swap(Object[] array, int i, int j) {
-        if (i == j)
-            return;
-        Object t = array[i];
-        array[i] = array[j];
-        array[j] = t;
-        super.setModifyCount();
-    }
 
     /**
      * 比较函数

@@ -1,8 +1,6 @@
 package com.tribes.dataStructure.list;
 
 import java.util.Collection;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
 
 /**
  * Double-Linked List.
@@ -10,10 +8,9 @@ import java.util.NoSuchElementException;
  * Allow null element.
  *
  * @param <E> the type of element added into the list.
- * @author Zhiqiang Du
- * @see List
+ * @author v-zhidu
  */
-public class LinkedList<E> implements List<E> {
+public class LinkedList<E> {
 
     private int size = 0;
 
@@ -23,10 +20,15 @@ public class LinkedList<E> implements List<E> {
 
     private Node<E> last;
 
-    private static class Node<E> {
-        E item;
-        Node<E> prev;
-        Node<E> next;
+    /**
+     * 双向结点
+     *
+     * @param <E> 放在结点数据域中的元素
+     */
+    public class Node<E> {
+        public E item;
+        public Node<E> prev;
+        public Node<E> next;
 
         Node(Node<E> prev, E item, Node<E> next) {
             this.item = item;
@@ -52,273 +54,125 @@ public class LinkedList<E> implements List<E> {
     }
 
     /**
-     * Returns <tt>true</tt> if this list has no element.
+     * <tt>true</tt> 如果列表不包含任何元素
      *
-     * @return <tt>true</tt> if this list has no element
+     * @return <tt>true</tt> 如果列表不包含任何元素
      */
-    @Override
     public boolean isEmpty() {
-        return this.size == 0;
+        return false;
     }
 
     /**
-     * Returns the number of this list.
+     * 返回列表中的元素数量
      *
-     * @return the number of this list
+     * @return 返回列表中的元素数量
      */
-    @Override
     public int size() {
-        return this.size;
+        return size;
     }
 
     /**
-     * Returns <tt>true</tt> if this list has e element.
+     * 返回列表修改次数
      *
-     * @param o element whether in this list
-     * @return <tt>true</tt> if this list has e element
+     * @return 返回列表修改次数
      */
-    @Override
-    public boolean contains(Object o) {
-        return indexOf(o) != -1;
+    public int modCount() {
+        return modCount;
+    }
+
+    public Node<E> getFirst() {
+        return first;
+    }
+
+    public Node<E> getLast() {
+        return last;
     }
 
     /**
-     * Returns first occurrence index of an element if exist in this list.
+     * <tt>true</tt> 如果元素被正确插入，尾部插入
      *
-     * @param o an element
-     * @return first occurrence index of an element if exist in this list.
+     * @param e 插入列表的元素
+     * @return <tt>true</tt> 如果元素被正确插入
      */
-    @Override
-    public int indexOf(Object o) {
-        int index = 0;
-        if (o == null) {
-            for (Node<E> x = first; x != null; x = x.next) {
-                if (x.item == null)
-                    return index;
-                index++;
-            }
-        } else {
-            for (Node<E> x = first; x != null; x = x.next) {
-                if (o.equals(x.item))
-                    return index;
-                index++;
-            }
-        }
-
-        return -1;
-    }
-
-    /**
-     * Returns <tt>true</tt> if element added into this list correct.
-     *
-     * @param e element added to this list
-     * @return <tt>true</tt> if element added into this list correct
-     */
-    @Override
     public boolean add(E e) {
         linkLast(e);
         return true;
     }
 
     /**
-     * Add a collection of elements.
+     * 批量添加元素
      *
      * @param c a collection of elements
      */
-    @Override
     public void addAll(Collection<? extends E> c) {
-        addAll(size, c);
+
     }
 
     /**
-     * Insert all of the elements in the specified collection into this list.
+     * 删除一个元素
      *
-     * @param index index at which to insert the first element
-     *              from the specified collection
-     * @param c     collection containing element to be added to this list
-     * @return {@code true} if this list changed as a result of the call
-     * @throws IndexOutOfBoundsException
-     * @throws NullPointerException      if the specified collection is null
+     * @param node 等待删除的元素
+     * @return <tt>true</tt> 如果删除成功则返回被删除元素的值
      */
-    @Override
-    public boolean addAll(int index, Collection<? extends E> c) {
-        checkPositionIndex(index);
-
-        Object[] a = c.toArray();
-        int numNew = a.length;
-        if (numNew == 0)
-            return false;
-
-        Node<E> pred, succ;
-        if (index == size) {
-            succ = null;
-            pred = last;
-        } else {
-            succ = node(index);
-            pred = succ.prev;
-        }
-
-        for (Object o : a) {
-            @SuppressWarnings("unchecked") E e = (E) o;
-            Node<E> newNode = new Node<E>(pred, e, null);
-            if (pred == null)
-                first = newNode;
-            else
-                pred.next = newNode;
-            pred = newNode;
-        }
-
-        if (succ == null) {
-            last = pred;
-        } else {
-            pred.next = succ;
-            succ.prev = pred;
-        }
-
-        size += numNew;
-        modCount++;
-        return true;
-    }
-
-    @Override
-    public Iterator<E> iterator() {
-        return new ListIterator<E>(first, last);
-    }
-
-    private class ListIterator<E> implements Iterator<E> {
-
-        private Node<E> first;
-        private Node<E> last;
-        private Node<E> current;
-
-        ListIterator(Node<E> first, Node<E> last) {
-            this.current = first;
-            this.first = first;
-            this.last = last;
-        }
-
-        /**
-         * Returns {@code true} if the iteration has more elements.
-         * (In other words, returns {@code true} if {@link #next} would
-         * return an element rather than throwing an exception.)
-         *
-         * @return {@code true} if the iteration has more elements
-         */
-        @Override
-        public boolean hasNext() {
-            return current != null;
-        }
-
-        /**
-         * Returns the next element in the iteration.
-         *
-         * @return the next element in the iteration
-         * @throws NoSuchElementException if the iteration has no more elements
-         */
-        @Override
-        public E next() {
-            if (!hasNext())
-                throw new NoSuchElementException();
-            E item = current.item;
-            current = current.next;
-            return item;
-        }
-
-        @Override
-        public void remove() {
-            throw new UnsupportedOperationException("remove");
-        }
-
-    }
-
-    //region Private Methods
-
-    /**
-     * Link an element to the head of list.
-     */
-    private void linkFirst(E e) {
-        final Node<E> f = first;
-        final Node<E> newNode = new Node<E>(null, e, f);
-        first = newNode;
-        if (f == null)
-            last = newNode;
-        else
-            f.prev = first;
-        size++;
-        modCount++;
+    public E remove(Node<E> node) {
+        return unlink(node);
     }
 
     /**
-     * Link an element to the tail of list.
+     * 清空列表中的所有元素
+     */
+    public void clear() {
+
+    }
+
+    /**
+     * 在某一结点前插入元素
+     *
+     * @param node    插入的结点前
+     * @param element 等待插入的元素
+     */
+    public void insert(Node<E> node, E element) {
+
+    }
+
+    /**
+     * 在末结点添加元素
+     *
+     * @param e 等待添加的元素
      */
     private void linkLast(E e) {
         final Node<E> l = last;
-        final Node<E> newNode = new Node<E>(l, e, null);
+        final Node<E> newNode = new Node<>(l, e, null);
         last = newNode;
         if (l == null)
             first = newNode;
         else
-            l.next = last;
+            l.next = newNode;
         size++;
         modCount++;
     }
 
     /**
-     * Inserts element e before non-null Node succ.
-     */
-    private void linkBefore(E e, Node<E> succ) {
-        Node<E> pred = succ.prev;
-        Node<E> newNode = new Node<E>(pred, e, succ);
-        succ.prev = newNode;
-        if (pred == null)
-            first = newNode;
-        else
-            pred.next = newNode;
-        size++;
-        modCount++;
-    }
-
-    /**
-     * Un-links first node f.
-     */
-    private E unlinkFirst(Node<E> f) {
-        final E element = f.item;
-        final Node<E> next = f.next;
-        f.item = null;
-        f.next = null;
-        first = next;
-        if (next == null)
-            last = null;
-        else
-            next.prev = null;
-        size--;
-        modCount++;
-
-        return element;
-    }
-
-    /**
-     * Un-links first node l
+     * 删除末结点
+     *
+     * @param l 末结点
+     * @return 删除的结点值
      */
     private E unlinkLast(Node<E> l) {
         final E element = l.item;
-        final Node<E> pred = l.prev;
+        final Node<E> prev = l.prev;
         l.item = null;
         l.prev = null;
-        last = pred;
-        if (pred == null)
+        last = prev;
+        if (prev == null)
             first = null;
         else
-            pred.next = null;
+            prev.next = null;
         size--;
         modCount++;
-
         return element;
     }
 
-    /**
-     * Un-links node x.
-     */
     private E unlink(Node<E> x) {
         final E element = x.item;
         final Node<E> prev = x.prev;
@@ -335,56 +189,12 @@ public class LinkedList<E> implements List<E> {
             last = prev;
         } else {
             next.prev = prev;
-            x.next = null;
+            x.next =null;
         }
 
         x.item = null;
         size--;
         modCount++;
-
         return element;
     }
-
-    /**
-     * Constructs an IndexOfBoundsException detail message.
-     */
-    private String outOfBoundMsg(int index) {
-        return "Index: " + index + ", Size: " + size;
-    }
-
-    /**
-     * Tells if the argument is the index of a valid position for an
-     * iterator or ad add operation.
-     */
-    private boolean isPositionIndex(int index) {
-        return index >= 0 && index <= size;
-    }
-
-    /**
-     * Check if the argument is the index of a valid position for a list.
-     *
-     * @throws IndexOutOfBoundsException if the index is not a valid index.
-     */
-    private void checkPositionIndex(int index) {
-        if (!isPositionIndex(index))
-            throw new IndexOutOfBoundsException(outOfBoundMsg(index));
-    }
-
-    /**
-     * Returns the Node at the specified element index.
-     */
-    Node<E> node(int index) {
-        if (index < (size >> 1)) {
-            Node<E> x = first;
-            for (int i = 0; i < index; i++)
-                x = x.next;
-            return x;
-        } else {
-            Node<E> x = last;
-            for (int i = size - 1; i > index; i--)
-                x = x.prev;
-            return x;
-        }
-    }
-    //endregion
 }

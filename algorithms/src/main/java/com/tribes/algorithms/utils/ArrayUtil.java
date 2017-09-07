@@ -2,8 +2,6 @@ package com.tribes.algorithms.utils;
 
 import edu.princeton.cs.algs4.StdRandom;
 
-import java.util.LinkedList;
-
 /**
  * 数组常用工具方法
  *
@@ -79,6 +77,33 @@ public class ArrayUtil {
 
         return String.valueOf(arr);
     }
+
+    /**
+     * 在数组中的某一个位置插入元素
+     *
+     * @param array 待插入数组
+     * @param index 插入元素的索引位置
+     * @param value 插入元素
+     */
+    protected void insert(Object[] array, int index, Comparable value) {
+        System.arraycopy(array, index, array, index + 1, array.length - 1 - index);
+        array[index] = value;
+    }
+
+    /**
+     * 交换数组中两个位置的元素
+     *
+     * @param i 元素索引
+     * @param j 元素索引
+     */
+    protected void swap(Object[] array, int i, int j) {
+        if (i == j)
+            return;
+        Object t = array[i];
+        array[i] = array[j];
+        array[j] = t;
+    }
+
 
     public static Integer[] randomInt(int n) {
         Integer[] random = new Integer[n];

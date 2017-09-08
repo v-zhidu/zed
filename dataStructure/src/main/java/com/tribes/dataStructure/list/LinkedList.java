@@ -1,6 +1,8 @@
 package com.tribes.dataStructure.list;
 
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Double-Linked List.
@@ -10,7 +12,7 @@ import java.util.Collection;
  * @param <E> the type of element added into the list.
  * @author v-zhidu
  */
-public class LinkedList<E> {
+public class LinkedList<E> implements Iterable<E> {
 
     private int size = 0;
 
@@ -203,25 +205,103 @@ public class LinkedList<E> {
     public void move(Node<E> m, Node<E> n) {
         final Node<E> pred = n.prev;
         final Node<E> succ = m.next;
+        Node<E> mPrev = m.prev;
 
         m.prev = pred;
+        mPrev.next = succ;
         m.next = n;
         n.prev = m;
-        n.next = succ;
 
         if (pred == null)
             first = m;
         else
             pred.next = m;
 
-        if (succ == null)
-            last = n;
-        else
-            succ.prev = n;
+        if (succ == null) {
+            last = mPrev;
+        } else {
+            mPrev.next = succ;
+            succ.prev = mPrev;
+        }
 
         modCount++;
     }
 
+    //region Iterator
+
+    /**
+     * Returns an iterator over elements of type {@code T}.
+     *
+     * @return an Iterator.
+     */
+    @Override
+    public Iterator<E> iterator() {
+        return new ListItr<>(first);
+    }
+
+    private class ListItr<E> implements Iterator<E> {
+
+        Node<E> current;
+
+        ListItr(Node<E> first) {
+            this.current = first;
+        }
+
+        /**
+         * Returns {@code true} if the iteration has more elements.
+         * (In other words, returns {@code true} if {@link #next} would
+         * return an element rather than throwing an exception.)
+         *
+         * @return {@code true} if the iteration has more elements
+         */
+        @Override
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        /**
+         * Returns the next element in the iteration.
+         *
+         * @return the next element in the iteration
+         * @throws NoSuchElementException if the iteration has no more elements
+         */
+        @Override
+        public E next() {
+            if (!hasNext())
+                throw new NoSuchElementException();
+            E element = this.current.item;
+            this.current = this.current.next;
+
+            return element;
+        }
+    }
+
+    @Override
+    public String toString() {
+        if (first == null)
+            return "null";
+
+        if (size == 0)
+            return "[]";
+
+        StringBuilder sb = new StringBuilder();
+        sb.append('[');
+        int count = 0;
+        for (E e : this) {
+            sb.append(String.valueOf(e));
+            if (count == size - 1) {
+                sb.append(']');
+            } else {
+                sb.append(", ");
+                count++;
+            }
+
+        }
+
+        return sb.toString();
+    }
+
+    //endregion
     //region Private Methods
 
     /**

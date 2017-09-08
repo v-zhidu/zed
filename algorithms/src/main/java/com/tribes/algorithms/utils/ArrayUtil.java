@@ -1,5 +1,8 @@
 package com.tribes.algorithms.utils;
 
+import com.tribes.algorithms.sorting.common.AscIntegerComparator;
+import com.tribes.algorithms.sorting.common.DescIntegerComparator;
+import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 
 import java.util.Arrays;
@@ -107,10 +110,12 @@ public class ArrayUtil {
         array[j] = t;
     }
 
-    public static Integer uniform(int min, int max) {
-        return StdRandom.uniform(min, max);
-    }
-
+    /**
+     * 生成大小为n的随机数组
+     *
+     * @param n 数组大小
+     * @return 生成大小为n的随机数组
+     */
     public static Integer[] randomInt(int n) {
         Integer[] random = new Integer[n];
         for (int i = 0; i < n; i++)
@@ -119,6 +124,12 @@ public class ArrayUtil {
         return random;
     }
 
+    /**
+     * 生成大小为n的接近有序数组
+     *
+     * @param n 数组大小
+     * @return 生成大小为n的接近有序数组
+     */
     public static Integer[] nearlyInt(int n) {
         Integer[] array = new Integer[n];
         for (int i = 0; i < n; i++)
@@ -133,6 +144,12 @@ public class ArrayUtil {
         return array;
     }
 
+    /**
+     * 生成大小为n的升序获降序数组
+     *
+     * @param n 数组大小
+     * @return 生成大小为n的升序获降序数组
+     */
     public static Integer[] sortedInt(int n, Comparator comparator) {
         Integer[] array = new Integer[n];
         for (int i = 0; i < n; i++)
@@ -141,7 +158,21 @@ public class ArrayUtil {
         return array;
     }
 
-    public static void shuffle(Object[] a) {
-        StdRandom.shuffle(a);
+    /**
+     * 重新排列数组中元素的大小
+     *
+     * @param array 待排列数组
+     */
+    public static void shuffle(Object[] array) {
+        StdRandom.shuffle(array);
+    }
+
+    /**
+     * 控制台输出
+     *
+     * @param array 待输出数组
+     */
+    public static void show(Object[] array) {
+        StdOut.println(Arrays.toString(array));
     }
 }

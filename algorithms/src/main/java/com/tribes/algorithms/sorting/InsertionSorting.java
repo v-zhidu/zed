@@ -16,20 +16,6 @@ import java.util.Comparator;
 public class InsertionSorting<T extends Comparable> extends Sorting<Comparable> {
 
     /**
-     * 单元测试方法
-     */
-    public static void main(String[] args) {
-        InsertionSorting<Integer> sorting = new InsertionSorting<>();
-//        Integer[] array = new Integer[]{3, 1, 2, 4};
-//        LinkedList<Comparable> list = new LinkedList<>();
-//        list.addAll(Arrays.asList(array));
-//        sorting.sort(list, new AscIntegerComparator());
-//        sorting.show(list.toArray());
-//        sorting.show(ArrayUtil.nearlyInt(100));
-        sorting.evaluate(new Integer[]{10, 50, 500, 2000, 5000, 10000}, 10);
-    }
-
-    /**
      * 基本的算法实现
      * <p>
      * 用来实现一般教材中的基本算法实现
@@ -81,15 +67,6 @@ public class InsertionSorting<T extends Comparable> extends Sorting<Comparable> 
     public void sort(LinkedList<Comparable> list, Comparator comparator) {
         super.startSorting(list.size());
 
-//        for (int i = 1; i < list.size(); i++) {
-//            int pos = i;
-//            for (int j = i; j > 0 && less(list.get(i), list.get(j - 1), comparator); j--)
-//                pos--;
-//            if (pos != i) {
-//                insert(list, i, pos);
-//            }
-//
-//        }
         LinkedList.Node first = list.getFirst();
 
         if (first == null)
@@ -110,5 +87,13 @@ public class InsertionSorting<T extends Comparable> extends Sorting<Comparable> 
         }
 
         super.endSorting();
+    }
+
+    /**
+     * 单元测试方法
+     */
+    public static void main(String[] args) {
+        InsertionSorting<Integer> sorting = new InsertionSorting<>();
+        sorting.evaluate(new Integer[]{100000}, 10);
     }
 }

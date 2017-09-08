@@ -44,14 +44,7 @@ public abstract class Sorting<T extends Comparable> extends Analyzable {
         return comparator.compare(a, b) < 0;
     }
 
-    /**
-     * 控制台输出
-     *
-     * @param array 待输出数组
-     */
-    protected void show(Object[] array) {
-        StdOut.println(Arrays.toString(array));
-    }
+    //region 检查序列是否已经排序
 
     protected boolean isSorted(Comparable[] a, int lo, int hi) {
         for (int i = lo + 1; i < hi; i++)
@@ -75,8 +68,30 @@ public abstract class Sorting<T extends Comparable> extends Analyzable {
         return isSorted(a, 0, a.length, comparator);
     }
 
+    protected boolean isSorted(LinkedList<Comparable> list, Comparator comparator) {
+        Comparable pre = null;
+        for (Comparable cur : list) {
+            if (pre == null)
+                pre = cur;
+            if (less(cur, pre, comparator))
+                return false;
+        }
+
+        return true;
+    }
+
+    //endregion
+
+    /**
+     * 打印链表元素
+     */
+    protected void show(LinkedList<Comparable> list) {
+        StdOut.println(list.toString());
+    }
+
     /**
      * 数组变化可视化
+     *
      * @param a 数组
      */
     protected void visual(Comparable[] a) {
@@ -129,27 +144,31 @@ public abstract class Sorting<T extends Comparable> extends Analyzable {
     private double executeSorts(int method, int type, int n, int iteration) {
         AscIntegerComparator comparator = new AscIntegerComparator();
         Accumulator accumulator = new Accumulator();
-        if (method == 1) {
-            Comparable[] array = generateArray(type, n);
-            for (int i = 0; i < iteration; i++) {
-                this.sort(array);
-                accumulator.addDataValue(this.getDuration());
-            }
-        } else if (method == 2) {
-            for (int i = 0; i < iteration; i++) {
-                this.sort(generateArray(type, n), comparator);
-                accumulator.addDataValue(this.getDuration());
-            }
-        } else {
-            LinkedList<Comparable> list = new LinkedList<>();
-            for (int i = 0; i < iteration; i++) {
-                list.clear();
+        try {
+            if (method == 1) {
                 Comparable[] array = generateArray(type, n);
-                assert array != null;
-                list.addAll(Arrays.asList(array));
-                this.sort(list, comparator);
-                accumulator.addDataValue(this.getDuration());
+                for (int i = 0; i < iteration; i++) {
+                    this.sort(array);
+                    accumulator.addDataValue(this.getDuration());
+                }
+            } else if (method == 2) {
+                for (int i = 0; i < iteration; i++) {
+                    this.sort(generateArray(type, n), comparator);
+                    accumulator.addDataValue(this.getDuration());
+                }
+            } else {
+                LinkedList<Comparable> list = new LinkedList<>();
+                for (int i = 0; i < iteration; i++) {
+                    list.clear();
+                    Comparable[] array = generateArray(type, n);
+                    assert array != null;
+                    list.addAll(Arrays.asList(array));
+                    this.sort(list, comparator);
+                    accumulator.addDataValue(this.getDuration());
+                }
             }
+        } catch (UnsupportedOperationException ex) {
+            accumulator.addDataValue(0);
         }
 
         return accumulator.mean();
@@ -193,7 +212,6 @@ public abstract class Sorting<T extends Comparable> extends Analyzable {
 
         return builder.build().toString();
     }
-
 
     /**
      * 基本的算法实现

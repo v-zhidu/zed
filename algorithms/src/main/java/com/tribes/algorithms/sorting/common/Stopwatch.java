@@ -3,6 +3,7 @@ package com.tribes.algorithms.sorting.common;
 import edu.princeton.cs.algs4.StdOut;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 
 /**
  * 计时器

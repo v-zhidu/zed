@@ -94,6 +94,6 @@ public class InsertionSorting<T extends Comparable> extends Sorting<Comparable> 
      */
     public static void main(String[] args) {
         InsertionSorting<Integer> sorting = new InsertionSorting<>();
-        sorting.evaluate(new Integer[]{100000}, 10);
+        sorting.evaluate(new Integer[]{10, 100, 1000}, 10);
     }
 }

@@ -3,7 +3,6 @@ package com.tribes.algorithms.sorting;
 import com.tribes.algorithms.sorting.common.Sorting;
 import com.tribes.algorithms.utils.ArrayUtil;
 import com.tribes.dataStructure.list.LinkedList;
-import edu.princeton.cs.algs4.Selection;
 
 import java.util.Comparator;
 
@@ -54,6 +53,6 @@ public class SelectionSorting<T extends Comparable> extends Sorting<T> {
     public static void main(String[] args) {
         SelectionSorting<Comparable> sorting = new SelectionSorting<>();
 
-        sorting.evaluate(new Integer[]{10, 100, 500}, 10);
+        sorting.evaluate(new Integer[]{10, 100, 500}, 100);
     }
 }
